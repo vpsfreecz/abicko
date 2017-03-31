@@ -1,0 +1,19 @@
+#!/usr/bin/python
+
+import os
+import json
+import yaml
+import abicko
+
+with open("config.yaml") as stream:
+    config = yaml.safe_load(stream)
+
+def get_blog(name):
+    blog = abicko.Blog(name)
+    blog.download()
+    return blog.parse()
+
+data = {"blogs": {name: get_blog(name) for name in config["blogs"]}}
+
+with open("output.json", "w") as stream:
+    json.dump(data, stream, sort_keys=True, indent=4, separators=(',', ': '))
