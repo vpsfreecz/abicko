@@ -20,6 +20,17 @@ strávil víc času než startem na zelené louce.
   * Zatím nestahuje text blogu.
   * Lze používat jen přímo z git repa.
 
+## Citace podmínek použití textů Abclinuxu.cz
+
+> Autorská práva k textům přísluší jejich autorům. Mezi texty se řadí
+> komentáře, zprávičky, hardwarové a softwarové záznamy, pojmy ve slovníku,
+> ovladače a další služby portálu. Publikováním dává autor provozovateli
+> portálu časově a geograficky neomezenou neexkluzivní licenci k šíření
+> libovolnými kanály (například www, email, wap, PDF, tisk a další). K tomuto
+> šíření smí provozovatel použít i externí firmy.
+
+(<http://www.abclinuxu.cz/doc/podminky-pouziti>)
+
 ## Licence
 
 Public domain.
