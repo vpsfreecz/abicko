@@ -1,32 +1,15 @@
-import os
 import sys
 import argparse
 import re
 import datetime
-from lxml import html
-from urllib.request import urlretrieve
 
-base_url = "https://www.abclinuxu.cz"
-base_download = "cache"
-
-re_target_replace = re.compile("[^a-z]")
-
-class Object:
-    @property
-    def url(self):
-        return base_url + self._path
-
-    @property
-    def target(self):
-        return os.path.join(base_download, re_target_replace.sub("_", self._path.lstrip("/")))
-
-    def download(self):
-        os.makedirs(base_download, exist_ok=True)
-        urlretrieve(self.url, self.target)
+from webscrape import Object, List
 
 
-class Blog(Object):
+class Blog(List):
+    base_url = "https://www.abclinuxu.cz"
     re_url = re.compile("^.*/blog/([^/]*)$")
+    xpath_item = "//div[@id='st']/div[@class='cl']"
 
     def __init__(self, name):
         self._name = name
@@ -34,15 +17,6 @@ class Blog(Object):
 
     def __repr__(self):
         return "<{} name={}>".format(type(self).__name__, self.name)
-
-    def parse(self):
-        with open(self.target) as stream:
-            root = html.fromstring(stream.read())
-        return self.parse_root(root)
-
-    def parse_root(self, root):
-        sections = root.xpath("//div[@id='st']/div[@class='cl']")
-        return [self.parse_section(section) for section in sections]
 
     def parse_section(self, section):
 
@@ -71,8 +45,10 @@ class Blog(Object):
         raise ValueError("Unknown date format: {} (supported formats: {})".format(date, ", ".join(repr(fmt) for fmt in formats)))
 
 
+registered_classes = []
+
 def get(url):
-    registered_classes = [Blog]
+    registered_classes.append(Blog)
 
     for cls in registered_classes:
         match = cls.re_url.match(url)
